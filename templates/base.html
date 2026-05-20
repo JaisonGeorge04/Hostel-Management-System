@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hostel Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Fixed Top Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">Hostel Management</a>
+            <nav class="nav-links">
+                {% if user.is_authenticated %}
+                    <span class="nav-welcome">Welcome, <strong>{{ user.username }}</strong></span>
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-sm">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- Alert Messages -->
+    {% if messages %}
+        <div class="alerts-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <div class="alert-content">{{ message }}</div>
+                    <button class="alert-close" onclick="this.parentElement.remove();">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Layout -->
+    <div class="layout">
+        <!-- Sidebar Navigation (Left) -->
+        {% if user.is_authenticated %}
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    {% if user.role == 'ADMIN' %}
+                        <a href="{% url 'admin_dashboard' %}" class="nav-item">
+                            <span class="nav-icon">📊</span>
+                            <span>System Overview</span>
+                        </a>
+                        <a href="{% url 'admin_users' %}" class="nav-item">
+                            <span class="nav-icon">👥</span>
+                            <span>Manage Users</span>
+                        </a>
+                        <a href="{% url 'admin_rooms' %}" class="nav-item">
+                            <span class="nav-icon">🏠</span>
+                            <span>Manage Rooms</span>
+                        </a>
+                    {% elif user.role == 'WARDEN' %}
+                        <a href="{% url 'warden_dashboard' %}" class="nav-item">
+                            <span class="nav-icon">⚙️</span>
+                            <span>Warden Overview</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'student_dashboard' %}" class="nav-item">
+                            <span class="nav-icon">👤</span>
+                            <span>My Profile</span>
+                        </a>
+                        <a href="{% url 'room_list' %}" class="nav-item">
+                            <span class="nav-icon">🔍</span>
+                            <span>Browse Rooms</span>
+                        </a>
+                        <a href="{% url 'my_bookings' %}" class="nav-item">
+                            <span class="nav-icon">📋</span>
+                            <span>My Bookings</span>
+                        </a>
+                        <a href="{% url 'student_complaints' %}" class="nav-item">
+                            <span class="nav-icon">⚠️</span>
+                            <span>Complaints</span>
+                        </a>
+                    {% endif %}
+                </nav>
+            </aside>
+        {% endif %}
+
+        <!-- Main Content (Right) -->
+        <main class="main-content {% if user.is_authenticated %}with-sidebar{% endif %}">
+            <div class="content-inner">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 HostelCloud. All rights reserved.</p>
+    </footer>
+</body>
+</html>

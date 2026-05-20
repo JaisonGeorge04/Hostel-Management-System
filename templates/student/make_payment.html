@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex justify-center align-items-center" style="min-height: 60vh;">
+    <div class="auth-container">
+        <div class="card">
+            <div class="card-header">
+                <h2>💳 Confirm Payment</h2>
+            </div>
+            <div class="card-body">
+                <div class="card" style="background: var(--bg-tertiary); border: none; padding: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+                    <div class="d-flex justify-between mb-md">
+                        <span class="text-secondary">Room Number:</span>
+                        <strong>{{ booking.room.room_number }}</strong>
+                    </div>
+                    <div class="d-flex justify-between mb-md">
+                        <span class="text-secondary">Room Type:</span>
+                        <strong>
+                            {% if booking.room.room_type == 'AC' %}
+                                ❄️ AC
+                            {% else %}
+                                🔆 Non-AC
+                            {% endif %}
+                        </strong>
+                    </div>
+                    <div class="d-flex justify-between mb-md">
+                        <span class="text-secondary">Monthly Fee:</span>
+                        <strong>₹{{ booking.room.price_per_month }}</strong>
+                    </div>
+                    <div style="border-top: 2px solid var(--border); padding-top: var(--spacing-lg);" class="d-flex justify-between">
+                        <span class="text-secondary">Amount to Pay:</span>
+                        <strong style="font-size: 1.25rem; color: var(--success);">₹{{ booking.room.price_per_month }}</strong>
+                    </div>
+                </div>
+                <p class="text-secondary text-center mb-lg">This is a simulated payment. In production, this would integrate with a payment gateway.</p>
+            </div>
+            <div class="card-footer">
+                <form method="POST" class="w-full">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-lg">
+                        ✓ Confirm Payment
+                    </button>
+                    <a href="{% url 'my_bookings' %}" class="btn btn-outline">
+                        ← Cancel
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

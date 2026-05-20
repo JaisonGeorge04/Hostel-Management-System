@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>My Dashboard</h2>
+        <p class="text-secondary">Welcome to HostelCloud Student Portal</p>
+    </div>
+</div>
+
+<!-- Student Profile Card -->
+<div class="dashboard-grid">
+    <div class="stat-card is-info">
+        <div class="stat-label">Your Role</div>
+        <div class="stat-value">👤</div>
+    </div>
+    <div class="stat-card is-success">
+        <div class="stat-label">Status</div>
+        <div class="stat-value">Active</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card">
+    <div class="card-header">
+        <h3>Quick Actions</h3>
+    </div>
+    <div class="card-body">
+        <div class="d-flex gap-3 flex-wrap">
+            <a href="{% url 'room_list' %}" class="btn btn-primary">🔍 Browse Available Rooms</a>
+            <a href="{% url 'my_bookings' %}" class="btn btn-outline">📋 My Bookings</a>
+            <a href="{% url 'student_complaints' %}" class="btn btn-outline">⚠️ Make Complaint</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

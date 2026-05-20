@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="card text-center mb-2xl">
+    <h1 class="hero-title">Experience Modern Living</h1>
+    <p class="hero-subtitle">
+        HostelCloud is the smart way to manage your university or private accommodation. Effortlessly browse rooms, track your payments, and request maintenance instantly.
+    </p>
+    {% if not user.is_authenticated %}
+    <div class="d-flex justify-center align-items-center gap-3 flex-wrap">
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">🚀 Join HostelCloud</a>
+        <a href="{% url 'login' %}" class="btn btn-outline btn-lg">Log in to your account →</a>
+    </div>
+    {% else %}
+    <p class="text-secondary mt-lg">Welcome, <strong>{{ user.username }}</strong>! Navigate to your dashboard using the sidebar.</p>
+    {% endif %}
+</div>
+
+<!-- Features Section -->
+<div class="mb-2xl">
+    <h2 class="text-center mb-lg">Why Choose HostelCloud?</h2>
+    <div class="dashboard-cards">
+        
+        <div class="card feature-card">
+            <span class="feature-icon">🛏️</span>
+            <h3>Premium Rooms</h3>
+            <p class="text-secondary">Choose from a variety of AC and Non-AC configurations optimized for comfort and budget.</p>
+        </div>
+
+        <div class="card feature-card">
+            <span class="feature-icon">💳</span>
+            <h3>Hassle-Free Payments</h3>
+            <p class="text-secondary">Manage your periodic accommodation fees and securely track your entire transaction history online.</p>
+        </div>
+
+        <div class="card feature-card">
+            <span class="feature-icon">⚡</span>
+            <h3>Instant Support</h3>
+            <p class="text-secondary">Raise maintenance complaints with the tap of a button and monitor the warden's resolution status efficiently.</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- CTA Section -->
+{% if not user.is_authenticated %}
+<div class="card text-center">
+    <h2 class="mb-lg">Ready to Get Started?</h2>
+    <p class="text-secondary mb-lg">Join thousands of students already managing their accommodation with HostelCloud.</p>
+    <div class="d-flex justify-center align-items-center gap-3 flex-wrap">
+        <a href="{% url 'register' %}" class="btn btn-primary">Create Your Account</a>
+        <a href="{% url 'login' %}" class="btn btn-outline">Already a Member? Login</a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

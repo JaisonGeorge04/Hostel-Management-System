@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>Manage Users</h2>
+        <p class="text-secondary">View all students and wardens in the system</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>User Directory</h3>
+        <span class="text-secondary">{{ users|length }} users total</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr>
+                        <td>
+                            <strong>{{ u.username }}</strong>
+                        </td>
+                        <td>{{ u.email }}</td>
+                        <td>
+                            {% if u.role == 'WARDEN' %}
+                                <span class="text-warning">🔑 Warden</span>
+                            {% elif u.role == 'ADMIN' %}
+                                <span class="text-danger">👑 Admin</span>
+                            {% else %}
+                                <span class="text-secondary">👤 Student</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ u.date_joined|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-secondary">No users found in the system.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

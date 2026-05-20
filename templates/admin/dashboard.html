@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>Admin Dashboard</h2>
+        <p class="text-secondary">System Overview & Statistics</p>
+    </div>
+</div>
+
+<!-- Statistics Grid -->
+<div class="dashboard-grid">
+    <div class="stat-card is-info">
+        <div class="stat-label">Total Users</div>
+        <div class="stat-value">{{ users_count }}</div>
+    </div>
+    <div class="stat-card is-success">
+        <div class="stat-label">Total Rooms</div>
+        <div class="stat-value">{{ rooms_count }}</div>
+    </div>
+    <div class="stat-card is-warning">
+        <div class="stat-label">Active Bookings</div>
+        <div class="stat-value">{{ bookings_count }}</div>
+    </div>
+    <div class="stat-card is-success">
+        <div class="stat-label">Payments Received</div>
+        <div class="stat-value">{{ payments_count }}</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card mt-lg mb-4">
+    <div class="card-header">
+        <div>
+            <h3>Quick Actions</h3>
+            <p class="card-subtitle">Manage your hostel system efficiently</p>
+        </div>
+        <div class="btn-group">
+            <a href="{% url 'admin_rooms' %}" class="btn btn-primary">+ Add Room</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex gap-3 flex-wrap">
+            <a href="{% url 'admin_users' %}" class="btn btn-outline">View All Users</a>
+            <a href="{% url 'admin_rooms' %}" class="btn btn-outline">Manage Rooms</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

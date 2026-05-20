@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>Available Rooms</h2>
+        <p class="text-secondary">Browse and book a room that suits your needs</p>
+    </div>
+</div>
+
+<!-- Rooms Grid -->
+<div class="dashboard-cards">
+    {% for room in rooms %}
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3>Room {{ room.room_number }}</h3>
+                <p class="card-subtitle">
+                    {% if room.room_type == 'AC' %}
+                        ❄️ Air Conditioned
+                    {% else %}
+                        🔆 Non-Air Conditioned
+                    {% endif %}
+                </p>
+            </div>
+            {% if room.is_available %}
+                <span class="text-success">✓ Available</span>
+            {% else %}
+                <span class="text-danger">✕ Full</span>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <div class="mb-lg">
+                <p class="mb-md">
+                    <strong>📌 Capacity:</strong> {{ room.capacity }} beds
+                </p>
+                <p class="mb-md">
+                    <strong>💰 Price:</strong> ₹{{ room.price_per_month }}/month
+                </p>
+                <p>
+                    <strong>🛏️ Occupied:</strong> {{ room.current_occupancy }} / {{ room.capacity }} beds
+                </p>
+            </div>
+        </div>
+        <div class="card-footer">
+            {% if room.is_available %}
+                <a href="{% url 'book_room' room.id %}" class="btn btn-primary">Book Now</a>
+            {% else %}
+                <button disabled class="btn btn-outline">Fully Booked</button>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-body text-center">
+            <p class="text-secondary mb-md">No rooms available at the moment.</p>
+            <p class="text-tertiary">Please check back later or contact the warden for availability.</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>Raise a Complaint</h2>
+        <p class="text-secondary">Report maintenance issues or concerns to the warden</p>
+    </div>
+</div>
+
+<!-- Complaint Form -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h3>New Complaint</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="subject">Subject <span class="required">*</span></label>
+                <input type="text" id="subject" name="subject" class="form-control" placeholder="e.g., Broken window" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description <span class="required">*</span></label>
+                <textarea id="description" name="description" rows="5" class="form-control" placeholder="Describe the issue in detail..." required></textarea>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">⚠️ Submit Complaint</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- My Complaints -->
+<div class="card">
+    <div class="card-header">
+        <h3>My Complaints</h3>
+        <span class="text-secondary">{{ complaints|length }} total</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in complaints %}
+                    <tr>
+                        <td><strong>{{ c.subject }}</strong></td>
+                        <td>{{ c.description|truncatewords:15 }}</td>
+                        <td>
+                            {% if c.status == 'RESOLVED' %}
+                                <span class="text-success">✓ Resolved</span>
+                            {% elif c.status == 'IN_PROGRESS' %}
+                                <span class="text-info">👁️ In Progress</span>
+                            {% else %}
+                                <span class="text-warning">⏱️ Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ c.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-secondary">No complaints raised yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>My Bookings</h2>
+        <p class="text-secondary">Track the status of all your room booking requests</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Booking Requests</h3>
+        <span class="text-secondary">{{ bookings|length }} bookings</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Status</th>
+                        <th>Requested On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td><strong>Room {{ booking.room.room_number }}</strong></td>
+                        <td>
+                            {% if booking.status == 'PENDING' %}
+                                <span class="text-warning">⏱️ {{ booking.get_status_display }}</span>
+                            {% elif booking.status == 'APPROVED' %}
+                                <span class="text-success">✓ {{ booking.get_status_display }}</span>
+                            {% else %}
+                                <span class="text-danger">✕ {{ booking.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ booking.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            {% if booking.status == 'APPROVED' %}
+                                <a href="{% url 'make_payment' booking.id %}" class="btn btn-sm btn-success">💳 Pay Fees</a>
+                            {% else %}
+                                <span class="text-secondary">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-secondary">No bookings found. <a href="{% url 'room_list' %}">Browse rooms</a> to make your first booking.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>Warden Dashboard</h2>
+        <p class="text-secondary">Manage booking requests and resolve complaints</p>
+    </div>
+</div>
+
+<!-- Pending Bookings Section -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h3>Pending Booking Requests</h3>
+        <span class="text-secondary">{{ pending_bookings|length }} pending</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Room</th>
+                        <th>Requested On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in pending_bookings %}
+                    <tr>
+                        <td><strong>{{ b.student.username }}</strong></td>
+                        <td>Room {{ b.room.room_number }}</td>
+                        <td>{{ b.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="{% url 'manage_booking' b.id 'approve' %}" class="btn btn-sm btn-success">✓ Approve</a>
+                                <a href="{% url 'manage_booking' b.id 'reject' %}" class="btn btn-sm btn-danger">✕ Reject</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-secondary">No pending booking requests.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Active Complaints Section -->
+<div class="card">
+    <div class="card-header">
+        <h3>Active Complaints</h3>
+        <span class="text-secondary">{{ active_complaints|length }} active</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>Description</th>
+                        <th>Reported On</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in active_complaints %}
+                    <tr>
+                        <td><strong>{{ c.student.username }}</strong></td>
+                        <td>{{ c.subject }}</td>
+                        <td>{{ c.description|truncatewords:10 }}</td>
+                        <td>{{ c.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            {% if c.status == 'PENDING' %}
+                                <span class="text-warning">⏱️ Pending</span>
+                            {% elif c.status == 'RESOLVED' %}
+                                <span class="text-success">✓ Resolved</span>
+                            {% else %}
+                                <span class="text-info">👁️ In Progress</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-secondary">All complaints have been resolved!</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

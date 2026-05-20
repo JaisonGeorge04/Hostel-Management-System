@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h2>Manage Rooms</h2>
+        <p class="text-secondary">Add, view, and manage all hostel rooms</p>
+    </div>
+</div>
+
+<!-- Add New Room Form -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h3>Add New Room</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST" class="w-full">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="room_number">Room Number <span class="required">*</span></label>
+                    <input type="text" id="room_number" name="room_number" class="form-control" placeholder="e.g., 101" required>
+                </div>
+                <div class="form-group">
+                    <label for="room_type">Room Type <span class="required">*</span></label>
+                    <select id="room_type" name="room_type" class="form-control" required>
+                        <option value="">Select room type</option>
+                        <option value="NON_AC">Non-AC</option>
+                        <option value="AC">AC</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="capacity">Capacity <span class="required">*</span></label>
+                    <input type="number" id="capacity" name="capacity" class="form-control" min="1" placeholder="e.g., 2" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price_per_month">Price per Month (₹) <span class="required">*</span></label>
+                    <input type="number" id="price_per_month" name="price_per_month" class="form-control" step="0.01" placeholder="e.g., 5000" required>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">+ Add Room</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- All Rooms Table -->
+<div class="card">
+    <div class="card-header">
+        <h3>All Rooms</h3>
+        <span class="text-secondary">{{ rooms|length }} rooms total</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Type</th>
+                        <th>Capacity</th>
+                        <th>Occupied</th>
+                        <th>Price per Month</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in rooms %}
+                    <tr>
+                        <td><strong>{{ r.room_number }}</strong></td>
+                        <td>
+                            {% if r.room_type == 'AC' %}
+                                <span class="text-info">❄️ AC</span>
+                            {% else %}
+                                <span class="text-secondary">🔆 Non-AC</span>
+                            {% endif %}
+                        </td>
+                        <td><strong>{{ r.capacity }}</strong></td>
+                        <td>{{ r.occupied_beds }} / {{ r.capacity }}</td>
+                        <td>₹{{ r.price_per_month }}</td>
+                        <td>
+                            {% if r.is_available %}
+                                <span class="text-success">✓ Available</span>
+                            {% else %}
+                                <span class="text-danger">✕ Full</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-secondary">No rooms added yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
