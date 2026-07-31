@@ -18,7 +18,7 @@ A web-based **Hostel Management System** developed using **Django** that helps m
 
 **🛠️ Admin Module**
 •Manage Users
-•Manage Hostel Rooms
+•Manage Hostel Rooms 
 •Monitor Bookings & Payments
 •Dashboard with Hostel Statistics
 
