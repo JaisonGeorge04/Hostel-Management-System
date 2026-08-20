@@ -3,7 +3,7 @@ A web-based **Hostel Management System** developed using **Django** that helps m
 
 **🚀 Features** 
 **👨‍🎓 Student Module**
-•Student Registration & Login
+•Student Registration & Login 
 •View Available Rooms
 •Apply for Room Booking  
 •Track Booking Status
