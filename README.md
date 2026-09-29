@@ -1,5 +1,5 @@
 **🏨 Hostel Management System**
-A web-based **Hostel Management System** built with **Django** to manage hostel operations efficiently. The system provides role-based access for **Admin**, **Warden**, and **Students**, with features such as Room Booking, Complaint Management, Payment Tracking, and hostel administration.
+A web-based **Hostel Management System** built with **Django** to manage hostel operations efficiently. The system provides role-based access for **Admin**, **Warden**, and **Students**, with features including Room Booking, Complaint Management, Payment Tracking, and Hostel Administration.
 
 **🚀 Features**    
 **👨‍🎓 Student Module** 
