@@ -4,7 +4,7 @@ A web-based **Hostel Management System** built with **Django** to manage hostel 
 **🚀 Features**     
 **👨‍🎓 Student Module** 
 •Student Registration & Login 
-•View Available Rooms
+•View Available Rooms 
 •Apply for Room Booking  
 •Track Booking Status 
 •Submit Complaints
